@@ -17,7 +17,9 @@ export class Task {
     }
 
     protected sync() {
-        localStorage[STORAGE_KEY] = JSON.stringify(this._tasks)
+        if (!localStorage[STORAGE_KEY]) {
+            this._tasks = JSON.parse(localStorage[STORAGE_KEY])
+        }
     }
 
     @observable
