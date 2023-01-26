@@ -11,7 +11,9 @@ export class Task {
     }
 
     protected fetchs() {
-        this._tasks = JSON.parse(localStorage[STORAGE_KEY])
+        if (!localStorage[STORAGE_KEY]) {
+            this._tasks = JSON.parse(localStorage[STORAGE_KEY])
+        }
     }
 
     protected sync() {
@@ -75,7 +77,7 @@ export class Task {
 
         this.sync()
     }
-    
+
     @action
     update(id: TaskInterface['id'], title: string) {
         this.find(id, (task, i) => {
