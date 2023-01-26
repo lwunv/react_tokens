@@ -19,7 +19,7 @@ export const AppContainer = observer(() => {
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <img src={Logo} alt="logo"></img>
-          <div className="text-xl text-primary">Todo</div>
+          <div className="text-xl text-primary">COOL TODO</div>
         </div>
         <ThemeToggle></ThemeToggle>
       </div>
