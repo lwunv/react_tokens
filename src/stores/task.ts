@@ -11,7 +11,7 @@ export class Task {
     }
 
     protected fetchs() {
-        if (!localStorage[STORAGE_KEY]) {
+        if (localStorage[STORAGE_KEY]) {
             this._tasks = JSON.parse(localStorage[STORAGE_KEY])
         }
     }
