@@ -17,7 +17,7 @@ export class Task {
     }
 
     protected sync() {
-        if (!localStorage[STORAGE_KEY]) {
+        if (localStorage[STORAGE_KEY]) {
             this._tasks = JSON.parse(localStorage[STORAGE_KEY])
         }
     }
