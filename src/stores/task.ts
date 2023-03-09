@@ -1,6 +1,6 @@
 import { action, computed, makeAutoObservable, observable } from 'mobx'
 
-import { TaskInterface } from '../interfaces'
+import { TokenInterface } from '../interfaces'
 
 const STORAGE_KEY = '@tasks'
 
@@ -23,10 +23,10 @@ export class Task {
     }
 
     @observable
-    protected _tasks: TaskInterface[] = []
+    protected _tasks: TokenInterface[] = []
 
     @observable
-    protected _taskEdit?: TaskInterface
+    protected _taskEdit?: TokenInterface
 
     @computed
     get taskEdit() {
@@ -34,12 +34,13 @@ export class Task {
     }
 
     @action
-    edit(task: TaskInterface) {
+    edit(task: TokenInterface) {
         this._taskEdit = task
     }
 
     @computed
     get tasks() {
+        const data = []
         return this._tasks.filter((task) => !task.isDone)
             .sort((a,b) => b.updatedAt - a.updatedAt)
     }
@@ -60,7 +61,7 @@ export class Task {
         return rand
     }
 
-    protected find(id: TaskInterface['id'], callback: (task: TaskInterface, index: number) => void) {
+    protected find(id: TokenInterface['id'], callback: (task: TokenInterface, index: number) => void) {
         const index = this._tasks.findIndex((task) => task.id === id)
 
         if (index !== -1) {
@@ -69,19 +70,23 @@ export class Task {
     }
 
     @action
-    add(title: string) {
-        this._tasks.push({
-            title,
-            id: this.generateId(),
-            isDone: false,
-            updatedAt: new Date().getTime()
-        })
+    add(token: any) {
+        if (token.title){
+            this._tasks.push({
+                title: token.title,
+                logo: token.logo,
+                price: token.price,
+                id: this.generateId(),
+                isDone: false,
+                updatedAt: new Date().getTime()
+            })
 
-        this.sync()
+            this.sync()
+        }
     }
 
     @action
-    update(id: TaskInterface['id'], title: string) {
+    update(id: TokenInterface['id'], title: string, logo: string, price: string) {
         this.find(id, (task, i) => {
             this._tasks[i] = {
                 ...task,
@@ -94,7 +99,7 @@ export class Task {
     }
 
     @action
-    remove(id: TaskInterface['id']) {
+    remove(id: TokenInterface['id']) {
         this.find(id, (_, i) => {
             this._tasks.splice(i, 1)
             this.sync()
@@ -102,7 +107,7 @@ export class Task {
     }
 
     @action
-    toggleDone(id: TaskInterface['id']) {
+    toggleDone(id: TokenInterface['id']) {
         this.find(id, (task, i) => {
             this._tasks[i] = {
                 ...task,

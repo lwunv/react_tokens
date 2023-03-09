@@ -1,6 +1,7 @@
 import { action, computed, makeAutoObservable, observable } from 'mobx'
 
 type ThemeMode = 'light' | 'dark'
+type Title = String
 
 const STORAGE_KEY = '@theme'
 
@@ -11,10 +12,14 @@ export class Theme {
 
     @observable
     protected _themeMode: ThemeMode = localStorage[STORAGE_KEY] || 'light'
+    protected _title: Title = ''
 
     @computed
     get themeMode() {
         return this._themeMode
+    }
+    get pageTitle() {
+        return this._title
     }
 
     @action
@@ -30,6 +35,9 @@ export class Theme {
         }
 
         localStorage[STORAGE_KEY] = this._themeMode
+    }
+    setPageTitle(val: any) {
+        this._title = val
     }
 
     @computed

@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { MdCheckBox, MdCheckBoxOutlineBlank, MdDelete } from 'react-icons/md'
 
-import { TaskInterface } from '../interfaces'
+import { TokenInterface } from '../interfaces'
 import { useStore } from '../stores'
 import { BaseText } from './base-text'
+import Countdown from './countdown'
 
 interface Props {
-  task: TaskInterface
+  task: TokenInterface
 }
 
 const DISAPPEAR_CLASS = 'scale-75 -mb-[calc(48px+12px)] opacity-0 z-0'
@@ -20,6 +21,10 @@ export const TaskItem = (props: Props) => {
 
   const taskRef = useRef<HTMLDivElement>(null)
   const labelRef = useRef<HTMLDivElement>(null)
+
+  const handleCountdown = (e: any) => {
+    console.log(e)
+  }
 
   const toggleDone = () => {
     const transitionCallback = () => {
@@ -95,6 +100,18 @@ export const TaskItem = (props: Props) => {
             shadow-lg
         "
       >
+        <div
+          ref={taskRef}
+          className={`
+            relative
+            ease-in-out
+            duration-300
+            ${isDisappear ? DISAPPEAR_CLASS : 'z-10'}
+        `}
+        >
+
+        </div>
+        
         <button onClick={() => toggleDone()}>
           {!isDone ? (
             <BaseText>
@@ -132,6 +149,8 @@ export const TaskItem = (props: Props) => {
           </BaseText>
         </div>
 
+        <Countdown onComplete={handleCountdown} />
+        
         <button
           className="text-danger"
           onClick={() => disappear(() => store.task.remove(props.task.id))}

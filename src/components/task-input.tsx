@@ -1,63 +1,107 @@
 import { observer } from 'mobx-react'
-import { useEffect, useRef, useState } from 'react'
-
+import { useState } from 'react'
 import { useStore } from '../stores'
 
 export const TaskInput = observer(() => {
   const store = useStore()
 
-  const [title, setTitle] = useState(store.task.taskEdit?.title)
+  const [formData, setFormData] = useState({
+    title: '',
+    price: '',
+    logo: ''
+  })
 
-  const inputRef = useRef<HTMLInputElement>(null)
-
-  const submit = () => {
-    if (title) {
-      if (store.task.taskEdit) {
-        store.task.update(store.task.taskEdit.id, title)
-      } else {
-        store.task.add(title)
-      }
-
-      setTitle('')
-    }
+  const handleInputChange = (e:any) => {
+    const { name, value } = e.target
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }))
   }
 
-  useEffect(() => {
-    if (store.task.taskEdit) {
-      setTitle(store.task.taskEdit?.title)
-      inputRef.current?.focus()
-    }
-  }, [store.task.taskEdit])
+  const handleSubmit = (e:any) => {
+    store.task.add(formData)
+  }
 
   return (
-    <div
-      className="
-            p-3 
-            bg-component 
-            dark:bg-component-dark
-            text-dark
-            dark:text-light
-            flex 
-            items-center
-            shadow-lg
-            rounded-lg
-            mt-7
-        "
-    >
-      <input
-        value={title}
-        onInput={(e) => setTitle(e.currentTarget.value)}
-        onKeyDown={(e) => (e.key === 'Enter' ? submit() : '')}
-        type="text"
-        placeholder="+ add new task"
-        className="bg-transparent outline-0 flex-1 px-3"
-      />
+    <div>
+      <div
+        className="
+              p-3 
+              bg-component 
+              dark:bg-component-dark
+              text-dark
+              dark:text-light
+              flex 
+              items-center
+              shadow-lg
+              rounded-lg
+              mt-3
+          "
+      >
+        <input
+          name="title"
+          value={formData.title}
+          onInput={handleInputChange}
+          type="text"
+          placeholder="Title"
+          className="bg-transparent outline-0 flex-1 px-3"
+        />
+      </div>
+
+      <div
+        className="
+              p-3 
+              bg-component 
+              dark:bg-component-dark
+              text-dark
+              dark:text-light
+              flex 
+              items-center
+              shadow-lg
+              rounded-lg
+              mt-3
+          "
+      >
+        <input
+          name="price"
+          value={formData.price}
+          onInput={handleInputChange}
+          type="text"
+          placeholder="Price"
+          className="bg-transparent outline-0 flex-1 px-3"
+        />
+      </div>
+
+      <div
+        className="
+              p-3 
+              bg-component 
+              dark:bg-component-dark
+              text-dark
+              dark:text-light
+              flex 
+              items-center
+              shadow-lg
+              rounded-lg
+              mt-3
+          "
+      >
+        <input
+          name="logo"
+          value={formData.logo}
+          onInput={handleInputChange}
+          type="text"
+          placeholder="Logo url"
+          className="bg-transparent outline-0 flex-1 px-3"
+        />
+      </div>
 
       <button
-        onClick={() => submit()}
-        className="bg-primary px-3 py-1.5 text-sm text-light rounded-lg"
+        onClick={handleSubmit}
+        className="mt-5 bg-primary px-5 py-3 text-base text-light rounded-lg"
       >
-        {store.task.taskEdit ? 'update' : 'add'}
+        Add
       </button>
     </div>
   )
