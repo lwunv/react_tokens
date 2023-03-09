@@ -100,18 +100,10 @@ export const TaskItem = (props: Props) => {
             shadow-lg
         "
       >
-        <div
-          ref={taskRef}
-          className={`
-            relative
-            ease-in-out
-            duration-300
-            ${isDisappear ? DISAPPEAR_CLASS : 'z-10'}
-        `}
-        >
-
+        <div className="avatar w-50 h-50 bg-white rounded-full">
+          <img src={props.task.logo} alt={props.task.title} />
         </div>
-        
+
         <button onClick={() => toggleDone()}>
           {!isDone ? (
             <BaseText>
