@@ -29,8 +29,6 @@ body, html {
 /* Countdown */
 .countdown {
   position: relative;
-  width: 100px;
-  height: 100px;
   margin: 0 auto;
 }
 
@@ -40,16 +38,8 @@ body, html {
   height: 100%;
 }
 
-.countdown-path-elapsed {
-  fill: none;
-  stroke: #ddd;
-  stroke-width: 7;
-}
-
 .countdown-path-remaining {
-  fill: none;
   stroke-linecap: round;
-  stroke-width: 7;
   transform: rotate(-90deg);
   transform-origin: 50% 50%;
 }
@@ -59,10 +49,8 @@ body, html {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 30px;
   font-weight: bold;
   text-align: center;
   width: 100%;
-  color: #333;
 }
 /* Countdown end */

@@ -1,7 +1,6 @@
 import { observer } from 'mobx-react'
 import { useEffect } from 'react'
 
-import Logo from '../logo.svg'
 import { useStore } from '../stores'
 import { ThemeToggle } from '../components/theme-toggle'
 import {Routes, Route, Link, useLocation } from "react-router-dom"
@@ -17,7 +16,7 @@ export const AppContainer = observer(() => {
   }, [store.theme.themeMode])
 
   return (
-    <div className="max-w-screen-md mx-auto p-3">
+    <div className="max-w-screen-md mx-auto p-3" id="app">
       <div className="flex items-center justify-between">
         <div className="flex-1">
           <ThemeToggle/>
@@ -28,10 +27,11 @@ export const AppContainer = observer(() => {
           </Link>
         </div>
         <div className="flex items-center justify-end flex-1">
-          {location.pathname === '/add' ? ('') : (<Link to='/add' className={`text-dark dark:text-light text-xl`}>+</Link>)}
+          {location.pathname === '/add' ? ('') : (<Link to='/add' className={`text-primary text-2xl`}>+</Link>)}
         </div>
       </div>
-      <div className="title text-l text-primary mt-3 text-center">{store.theme.pageTitle}</div>
+      <div className="title text-l text-primary mt-3 text-center pb-3">{store.theme.pageTitle}</div>
+      <hr />
       <Routes>
         <Route path="/" element={<AppList/>}/>
         <Route path="add" element={<AppAdd/>}/>

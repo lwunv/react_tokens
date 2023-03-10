@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { MdCheckBox, MdCheckBoxOutlineBlank, MdDelete } from 'react-icons/md'
 
 import { TokenInterface } from '../interfaces'
 import { useStore } from '../stores'
@@ -22,52 +21,12 @@ export const TaskItem = (props: Props) => {
   const taskRef = useRef<HTMLDivElement>(null)
   const labelRef = useRef<HTMLDivElement>(null)
 
-  const handleCountdown = (e: any) => {
-    console.log(e)
-  }
-
-  const toggleDone = () => {
-    const transitionCallback = () => {
-      setTimeout(() => {
-        disappear(() => {
-          store.task.toggleDone(props.task.id)
-        })
-      }, DISAPEAR_DELAY)
-
-      labelRef.current?.removeEventListener(
-        'transitionend',
-        transitionCallback,
-        false
-      )
-    }
-
-    labelRef.current?.addEventListener(
-      'transitionend',
-      transitionCallback,
-      false
-    )
-
-    setIsDone(!isDone)
-  }
-
-  const disappear = (callback: Function) => {
-    const transitionCallback = () => {
-      callback()
-
-      taskRef.current?.removeEventListener(
-        'transitionend',
-        transitionCallback,
-        false
-      )
-    }
-
-    taskRef.current?.addEventListener(
-      'transitionend',
-      transitionCallback,
-      false
-    )
-
-    setIsDisappear(true)
+  const handleCountdown = async () => {
+    const min = 100000
+    const max = 999999
+    const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min
+    
+    store.task.updatePrice(props.task.id, randomNumber)
   }
 
   useEffect(() => {
@@ -84,71 +43,53 @@ export const TaskItem = (props: Props) => {
         ease-in-out
         duration-300
         ${isDisappear ? DISAPPEAR_CLASS : 'z-10'}
-    `}
+      `}
     >
       <div
         className="
             flex
             items-center
-            px-3
-            h-[48px]
-            my-[12px]
+            px-5
+            h-[79px]
             bg-component
             dark:bg-component-dark
-            rounded-lg
             gap-3
-            shadow-lg
+            border-b
         "
       >
-        <div className="avatar w-50 h-50 bg-white rounded-full">
-          <img src={props.task.logo} alt={props.task.title} />
+        <div className="w-[50px] h-[50px] mr-5 bg-white rounded-full overflow-hidden cursor-pointer border">
+          {props.task.logo ? (
+            <img src={props.task.logo} alt={props.task.title} />
+          ):('')}
         </div>
 
-        <button onClick={() => toggleDone()}>
-          {!isDone ? (
-            <BaseText>
-              <MdCheckBoxOutlineBlank></MdCheckBoxOutlineBlank>
-            </BaseText>
-          ) : (
-            <MdCheckBox className="text-primary"></MdCheckBox>
-          )}
-        </button>
-
-        <div
-          className="flex-1 truncate cursor-pointer"
-          onClick={() => store.task.edit(props.task)}
-        >
+        <div className="flex-1 truncate">
           <BaseText
             innerref={labelRef}
             className={`
-            px-3
-            truncate
-            inline
-            relative
-            after:content-['']
-            after:absolute
-            after:left-0
-            after:h-[2px]
-            after:top-[calc(50%+2px)]
-            after:bg-primary
-            after:ease-in-out
-            after:duration-300
-            after:transition-width
-            ${isDone ? 'after:w-full' : 'after:w-0'}
-        `}
+              truncate
+              inline
+              relative
+              after:content-['']
+              after:absolute
+              after:left-0
+              after:h-[2px]
+              after:top-[calc(50%+2px)]
+              after:bg-primary
+              after:ease-in-out
+              after:duration-300
+              after:transition-width
+              ${isDone ? 'after:w-full' : 'after:w-0'}
+            `}
           >
             {props.task.title}
           </BaseText>
+          <div className={`text-3xl text-dark dark:text-light relative ease-in-out duration-300 ${isDisappear ? DISAPPEAR_CLASS : 'z-10'}`}>
+            {parseFloat(props.task.price.toString()).toLocaleString().toString().replaceAll(',',' ')}
+          </div>
         </div>
 
-        <Countdown onComplete={handleCountdown} />
-        
-        <button
-          className="text-danger"
-          onClick={() => disappear(() => store.task.remove(props.task.id))}
-        >
-          <MdDelete></MdDelete>
-        </button>
+        <Countdown innerref={labelRef} onComplete={handleCountdown} />
       </div>
     </div>
   )

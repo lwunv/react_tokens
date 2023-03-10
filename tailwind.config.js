@@ -9,9 +9,9 @@ module.exports = {
       colors: {
         'light': '#f9f9f9',
         'dark': '#1c1917',
-        'component': '#FFF',
+        'component': '#fff',
         'component-dark': '#3f3f46',
-        'primary': '#74DEFB',
+        'primary': '#F9423A',
         'danger': '#ef4444'
       },
       transitionProperty: {

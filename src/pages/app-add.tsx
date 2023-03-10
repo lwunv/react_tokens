@@ -15,8 +15,7 @@ export const AppAdd = observer(() => {
 
   return (
     <div className="add-add">
-      <TaskInput></TaskInput>
-      <TaskList></TaskList>
+      <TaskInput/>
     </div>
   )
 })

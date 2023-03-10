@@ -1,5 +1,4 @@
 import { observer } from 'mobx-react'
-import { useEffect, useState } from 'react'
 import { IoIosMoon, IoIosSunny } from 'react-icons/io'
 
 import { useStore } from '../stores'

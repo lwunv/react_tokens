@@ -8,10 +8,11 @@ function Countdown({ onComplete } : any) {
   useEffect(() => {
     if (timeLeft === 0) {
       onComplete()
+      setTimeLeft(DURATION)
     }
 
     const interval = setInterval(() => {
-      setTimeLeft((prev) => prev > 0 ? timeLeft - 1 : DURATION)
+      setTimeLeft(timeLeft - 1)
     }, 1000)
 
     return () => clearInterval(interval)
@@ -26,34 +27,33 @@ function Countdown({ onComplete } : any) {
     calculateTimeFraction() * 283
   ).toFixed(0)} 283`
 
-  const circleColor = timeLeft <= DURATION / 2 ? "red" : "green"
-
   return (
-    <div className="countdown">
+    <div className="countdown w-[45px] h-[45px]">
       <svg className="countdown-svg" viewBox="0 0 100 100">
         <circle
-          className="countdown-path-elapsed"
+          className="countdown-path-elapsed ease-in-out"
           cx="50"
           cy="50"
           r="45"
           fill="none"
-          stroke="#ddd"
+          stroke="text-light dark:text-dark"
           strokeWidth="7"
         />
         <circle
-          className="countdown-path-remaining"
+          className="countdown-path-remaining ease-in-out
+          duration-300"
           cx="50"
           cy="50"
           r="45"
           fill="none"
-          stroke={circleColor}
+          stroke="#F9423A"
           strokeWidth="7"
           strokeDasharray={dashArray}
           strokeLinecap="round"
           transform="rotate(-90 50 50)"
         />
       </svg>
-      <div className="countdown-text">{timeLeft}</div>
+      <div className="countdown-text text-xs text-dark dark:text-light">{timeLeft}</div>
     </div>
   )
 }

@@ -1,6 +1,11 @@
+npm 9.6.1
+node v16.14.2
+
 ## Available Scripts
 
 In the project directory, you can run:
+
+### `npm install`
 
 ### `npm run start`
 
